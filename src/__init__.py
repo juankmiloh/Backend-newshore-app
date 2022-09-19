@@ -2,8 +2,8 @@
 import os
 import logging
 from flask import Flask
-from flask_sqlalchemy import SQLAlchemy
-from flask_injector import FlaskInjector
+# from flask_sqlalchemy import SQLAlchemy
+# from flask_injector import FlaskInjector
 from flask_cors import CORS
 # from injector import Module, Injector, singleton
 # from sqlalchemy.ext.declarative import declarative_base
@@ -48,6 +48,6 @@ def create_app():
         CORS(app, resources={
              r"*": {"origins": "*", "supports_credentials": True}})
 
-    FlaskInjector(app=app)
+    # FlaskInjector(app=app)
 
     return app
