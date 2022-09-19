@@ -1,0 +1,89 @@
+--------------------------------------------------------------------------------------
+---------------------------------------------------------------------------
+-- COMANDOS PARA CREAR EL SCRIPT DE EJECUCION DEL SERVIDOR PYTHON (backend) EN LINUX
+---------------------------------------------------------------------------
+
+-----
+1. Crear script en la carpeta del frontend para correr el servidor
+-----
+	nano server.sh
+
+-----
+2. Escribir en el script el comando a ejecutar:
+-----
+	#!/bin/bash
+	# echo levantar servidor python
+	source venv/bin/activate
+	flask run -h 0.0.0.0 -p 5055
+
+-----
+3. Darle permisos de ejecucion al script
+-----
+	chmod +x ./server.sh
+
+-----
+4. Ejecutar script desde la terminal (Estando en la ruta del script)
+-----
+	./server.sh
+
+---------------------------------------------------------------------------
+-- COMANDOS PARA CREAR UN SERVICIO EN LINUX - Levantar servidor de PYTHON (backend)
+---------------------------------------------------------------------------
+1. Entrar al directorio:
+	cd /lib/systemd/system/
+
+2. Crear el script del servicio
+	sudo nano servernewshore.service
+
+3. Escribir en el script lo siguiente:
+	[Unit]
+	Description=Iniciar servidor de PYTHON
+	After=network.target
+	StartLimitIntervalSec=0
+
+	[Service]
+	WorkingDirectory=/home/azureuser/Backend-newshore-app/
+	Type=simple
+	Restart=always
+	RestartSec=1
+	User=jherreraa
+	ExecStart=/bin/bash server.sh start
+
+	[Install]
+	WantedBy=multi-user.target
+
+4. Comando para que el servicio se inicie con el sistema
+	sudo systemctl enable servernewshore
+
+5. Comando para iniciar nuestro servicio
+	sudo systemctl start servernewshore
+
+6. Comando para detener el servicio
+	sudo systemctl stop servernewshore
+
+7. Comando para recargar servicios luego de pararlos y/o modificarlos (Opcional)
+	sudo systemctl daemon-reload
+
+8. Comando para saber si el servicio esta habilitado
+	sudo systemctl is-enabled servernewshore
+
+9. Comando para saber si el servicio esta activo
+	sudo systemctl is-active servernewshore
+
+10. Comando para reiniciar un servicio
+	sudo systemctl restart servernewshore
+
+11. Comando para saber estado del servicio (Muestra la consola de node)
+	sudo systemctl status servernewshore
+
+*. Comando para listar todos los servicios que estan corriendo
+	sudo systemctl list-unit-files --type service --all
+
+*. COMANDO PARA VER QUE APLICACIONES ESTAN CORRIENDO POR LOS PUERTOS DE LINUX
+	netstat -tanp
+
+*. COMANDO PARA MATAR UN PROCESO QUE CORRE POR UN PUERTO DETERMINADO - LINUX
+	sudo fuser -k 9527/tcp
+
+*. COMANDO PARA MOSTRAR LAS ULTIMAS 100 LINEAS DE LA CONSOLA DE LA EJECUCION DE UN SERVICIO LINUX
+journalctl --unit=servernewshore.service -n 100 --no-pager
