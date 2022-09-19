@@ -11,6 +11,6 @@
 *.njsproj
 *.sln
 *.local
-# .venv
-# venv
+.venv
+venv
 src/assets
