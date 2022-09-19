@@ -5,21 +5,21 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_injector import FlaskInjector
 from flask_cors import CORS
-from injector import Module, Injector, singleton
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import create_engine
+# from injector import Module, Injector, singleton
+# from sqlalchemy.ext.declarative import declarative_base
+# from sqlalchemy import create_engine
 
-from .service import ServiceModule
-from .repository import RepositoryModule
+# from .service import ServiceModule
+# from .repository import RepositoryModule
 
 il = logging.getLogger('injector')
 il.addHandler(logging.StreamHandler())
 il.level = logging.DEBUG
 
-Base = declarative_base()
+# Base = declarative_base()
 
 
-class AppModule(Module):
+class AppModule():
     def __init__(self):
         pass        
 
@@ -34,7 +34,7 @@ def create_app():
                 static_folder="../front/dist/static",
                 template_folder="../front/dist"
                 )
-    app.config.from_object('config_' + config_name)
+    # app.config.from_object('config_' + config_name)
 
     # db = SQLAlchemy()
     # db.init_app(app)
