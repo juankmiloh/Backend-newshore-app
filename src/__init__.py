@@ -20,12 +20,11 @@ Base = declarative_base()
 
 
 class AppModule(Module):
-    def __init__(self, db, postgresdb):
-        self.db = db
-        self.postgresdb = postgresdb
+    def __init__(self):
+        pass        
 
-    def configure(self, binder):
-        binder.bind(SQLAlchemy, to=self.db, scope=singleton)
+    # def configure(self, binder):
+    #     binder.bind(SQLAlchemy, to=self.db, scope=singleton)
 
 
 def create_app():
@@ -37,12 +36,10 @@ def create_app():
                 )
     app.config.from_object('config_' + config_name)
 
-    postgresdb = create_engine(app.config.get("SQLALCHEMY_DATABASE_POSTGRES_URI")).connect()
+    # db = SQLAlchemy()
+    # db.init_app(app)
 
-    db = SQLAlchemy()
-    db.init_app(app)
-
-    injector = Injector([AppModule(db, postgresdb), RepositoryModule(db, postgresdb), ServiceModule()])
+    # injector = Injector([AppModule(db), RepositoryModule(db), ServiceModule()])
 
     from .controller import controller as controller_blueprint
     app.register_blueprint(controller_blueprint)
@@ -51,6 +48,6 @@ def create_app():
         CORS(app, resources={
              r"*": {"origins": "*", "supports_credentials": True}})
 
-    FlaskInjector(app=app, injector=injector)
+    FlaskInjector(app=app)
 
     return app
